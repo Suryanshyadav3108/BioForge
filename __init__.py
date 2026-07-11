@@ -3,6 +3,6 @@ BioForge
 
 Professional Bioinformatics Toolkit
 
-Author:
+By:
 Suryansh Singh Yadav
 """

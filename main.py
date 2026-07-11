@@ -1,7 +1,7 @@
 """
 =====================================================
 BioForge - Professional Bioinformatics Toolkit
-Author  : Suryansh Singh Yadav
+By  : Suryansh Singh Yadav
 Version : 3.2
 =====================================================
 """
@@ -20,6 +20,16 @@ from dna import (
 from fasta import read_fasta
 
 from report import generate_report
+
+from visualization import (
+    plot_base_composition,
+    plot_gc_at
+)
+
+
+from pdf_generator import (
+    generate_pdf_report
+)
 
 from rna import (
     transcribe_dna,
@@ -95,7 +105,9 @@ def show_menu():
 
 def analyze_dna(sequence, header="Manual DNA"):
 
+
     valid, invalid = validate_dna(sequence)
+
 
     if not valid:
 
@@ -109,27 +121,41 @@ def analyze_dna(sequence, header="Manual DNA"):
 
         return
 
+
+
     length = get_length(sequence)
+
 
     counts = count_bases(sequence)
 
+
     gc = gc_content(sequence)
+
 
     at = at_content(sequence)
 
+
     reverse = reverse_sequence(sequence)
+
 
     reverse_comp = reverse_complement(sequence)
 
+
+
     print("\n✅ DNA Analysis Completed")
+
 
     print("\nSequence Name :", header)
 
+
     print("\nLength :", length)
+
+
 
     print("\nBase Count")
 
     print("--------------------")
+
 
     print("A :", counts["A"])
 
@@ -139,31 +165,149 @@ def analyze_dna(sequence, header="Manual DNA"):
 
     print("C :", counts["C"])
 
-    print("\nGC Content :", round(gc, 2), "%")
 
-    print("AT Content :", round(at, 2), "%")
+
+    print("\nGC Content :", round(gc,2), "%")
+
+    print("AT Content :", round(at,2), "%")
+
+
 
     print("\nReverse Sequence")
 
     print(reverse)
 
+
+
     print("\nReverse Complement")
 
     print(reverse_comp)
 
-    choice = input("\nGenerate PDF Report (Y/N): ").upper()
+
+
+    # ======================================
+    # Professional Report
+    # ======================================
+
+
+    choice = input(
+        "\nGenerate Professional PDF Report (Y/N): "
+    ).upper()
+
+
 
     if choice == "Y":
 
-        generate_report(
-            header,
-            sequence,
-            length,
-            counts,
+
+        print("\nGenerating Graphs...")
+
+
+        # Base Composition Graph
+
+        base_graph = plot_base_composition(
+            counts
+        )
+
+
+        # GC AT Graph
+
+        gc_graph = plot_gc_at(
             gc,
             at
         )
 
+
+
+        # ==================================
+        # ORF Analysis Data
+        # ==================================
+
+
+        orf_result = find_orf(
+            sequence
+        )
+
+
+        if orf_result:
+
+
+            orf_data = {
+
+                "ORF Found":
+                True,
+
+
+                "ORF Length":
+                orf_length(
+                    orf_result
+                ),
+
+
+                "ORF Sequence":
+                orf_result
+
+            }
+
+
+        else:
+
+
+            orf_data = {
+
+                "ORF Found":
+                False
+
+            }
+
+
+
+        print("\nGenerating PDF...")
+
+
+
+        generate_pdf_report(
+
+            "BioForge_Report.pdf",
+
+
+            header,
+
+
+            sequence,
+
+
+            counts,
+
+
+            round(gc,2),
+
+
+            round(at,2),
+
+
+            [
+
+                base_graph,
+
+                gc_graph
+
+            ],
+
+
+            orf_data=orf_data
+
+        )
+
+
+
+        print(
+            "\n✅ Professional Report Generated Successfully"
+        )
+
+
+        print(
+            "File : BioForge_Report.pdf"
+        )
 
 # ==========================================
 # Manual DNA Input

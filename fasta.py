@@ -1,7 +1,7 @@
 """
 =====================================================
 BioForge FASTA Reader
-Author  : Aman Yadav
+By : Suryansh Singh Yadav
 Version : 2.0
 =====================================================
 """

@@ -2,7 +2,7 @@
 =====================================================
 BioForge - NCBI Downloader Module
 
-Author : Suryansh Singh Yadav
+By : Suryansh Singh Yadav
 Version: 1.0
 =====================================================
 """

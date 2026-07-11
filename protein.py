@@ -1,7 +1,7 @@
 """
 =====================================================
 BioForge Protein Module
-Author  : Suryansh Singh Yadav
+By  : Suryansh Singh Yadav
 Version : 2.0
 =====================================================
 """

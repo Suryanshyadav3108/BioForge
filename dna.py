@@ -1,7 +1,7 @@
 """
 ==========================================
 BioForge DNA Module
-Author : Aman Yadav
+By : Suryansh Singh Yadav
 ==========================================
 """
 
