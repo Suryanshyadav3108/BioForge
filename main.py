@@ -52,6 +52,10 @@ from mutation import (
     protein_change
 )
 
+from ncbi import (
+    fetch_sequence,
+    save_fasta
+)
 
 # ==========================================
 # Banner
@@ -81,7 +85,8 @@ def show_menu():
     print("5. Compare Manual vs Biopython")
     print("6. ORF Finder")
     print("7. Mutation Analysis")
-    print("8. Exit")
+    print("8. NCBI Downloader")
+    print("9. Exit")
 
 
 # ==========================================
@@ -286,9 +291,7 @@ def compare_module():
     compare_translation(sequence)
 
 
-# ==========================================
-# Main Program
-# ==========================================
+
 
 # ==========================================
 # ORF Analysis
@@ -483,6 +486,136 @@ def mutation_analysis():
             e
         )
 
+# ==========================================
+# NCBI Downloader
+# ==========================================
+
+def ncbi_analysis():
+
+    accession = input(
+        "\nEnter NCBI Accession ID : "
+    ).strip()
+
+
+    result = fetch_sequence(
+        accession
+    )
+
+
+    if result is None:
+
+        print("\n❌ Sequence Not Found")
+
+        return
+
+
+
+    print("\n🌍 NCBI Sequence Downloaded")
+
+    print("-" * 40)
+
+
+
+    print(
+        "ID :",
+        result["id"]
+    )
+
+
+    print(
+        "Description :",
+        result["description"]
+    )
+
+
+    print(
+        "Sequence Length :",
+        result["length"],
+        "bp"
+    )
+
+
+
+    print("\nSequence Preview:")
+
+    print(
+        result["sequence"][:200],
+        "..."
+    )
+
+
+
+    # ======================================
+    # Save FASTA File
+    # ======================================
+
+
+    save_choice = input(
+        "\nSave FASTA File? (Y/N): "
+    ).upper()
+
+
+
+    if save_choice == "Y":
+
+
+        filename = input(
+            "\nEnter FASTA File Name : "
+        ).strip()
+
+
+
+        if not filename.endswith(".fasta"):
+
+            filename += ".fasta"
+
+
+
+        saved = save_fasta(
+            result,
+            filename
+        )
+
+
+
+        if saved:
+
+            print(
+                "\n✅ FASTA Saved Successfully:",
+                filename
+            )
+
+
+        else:
+
+            print(
+                "\n❌ FASTA Save Failed"
+            )
+
+
+
+    # ======================================
+    # Analyze Downloaded Sequence
+    # ======================================
+
+
+    analyze_choice = input(
+        "\nAnalyze This Sequence? (Y/N): "
+    ).upper()
+
+
+
+    if analyze_choice == "Y":
+
+
+        analyze_dna(
+
+            result["sequence"],
+
+            result["id"]
+
+        )
+
 #=============================
 # main
 #=============================
@@ -525,6 +658,9 @@ def main():
             mutation_analysis()
 
         elif choice == "8":
+            ncbi_analysis()
+
+        elif choice == "9":
 
 
             print("\n==========================================")
