@@ -144,6 +144,8 @@ from pdf_generator import (
 
 )
 
+from pipeline import run_complete_analysis
+
 
 
 
@@ -176,6 +178,32 @@ app.geometry(
     "800x900"
 )
 
+# ==========================================
+# Scrollable Main Container
+# ==========================================
+
+main_frame = ctk.CTkScrollableFrame(
+
+    app,
+
+    width=760,
+
+    height=850
+
+)
+
+main_frame.pack(
+
+    fill="both",
+
+    expand=True,
+
+    padx=10,
+
+    pady=10
+
+)
+
 
 
 
@@ -186,7 +214,7 @@ app.geometry(
 
 title = ctk.CTkLabel(
 
-    app,
+    main_frame,
 
     text="🧬 BioForge",
 
@@ -202,7 +230,7 @@ title.pack(
 
 subtitle = ctk.CTkLabel(
 
-    app,
+    main_frame,
 
     text="Professional Bioinformatics Toolkit\nBy: Suryansh Singh Yadav"
 
@@ -220,7 +248,7 @@ subtitle.pack()
 
 sequence_input = ctk.CTkEntry(
 
-    app,
+    main_frame,
 
     width=600,
 
@@ -244,7 +272,7 @@ sequence_input.pack(
 
 result_box = ctk.CTkTextbox(
 
-    app,
+    main_frame,
 
     width=650,
 
@@ -1032,6 +1060,98 @@ Suryansh Singh Yadav
 
     )
 
+# ==========================================
+# Complete Analysis GUI
+# ==========================================
+
+def complete_analysis_gui():
+
+    sequence = sequence_input.get().upper().strip()
+
+    result_box.delete("0.0", "end")
+
+    if sequence == "":
+
+        result_box.insert(
+            "end",
+            "❌ Enter DNA Sequence"
+        )
+        return
+
+    try:
+
+        report = run_complete_analysis(sequence)
+
+    except Exception as e:
+
+        result_box.insert(
+            "end",
+            str(e)
+        )
+        return
+
+    text = ""
+
+    text += "🧬 BioForge Complete Analysis\n"
+    text += "=" * 55 + "\n\n"
+
+    text += f"Length : {report['length']} bp\n"
+
+    text += f"GC : {round(report['gc'],2)} %\n"
+
+    text += f"AT : {round(report['at'],2)} %\n\n"
+
+    text += "Base Count\n"
+
+    text += str(report["counts"])
+
+    text += "\n\n"
+
+    text += "RNA\n"
+
+    text += report["rna"]
+
+    text += "\n\n"
+
+    text += "Protein\n"
+
+    text += report["protein"]
+
+    text += "\n\n"
+
+    text += "ORF\n"
+
+    text += str(report["orf"])
+
+    text += "\n\n"
+
+    text += "Restriction\n"
+
+    text += str(report["restriction"])
+
+    text += "\n\n"
+
+    text += "Primer\n"
+
+    text += str(report["primer"])
+
+    text += "\n\n"
+
+    text += "Codons\n"
+
+    text += str(report["codons"])
+
+    text += "\n\n"
+
+    text += "Mutation\n"
+
+    text += str(report["mutation"])
+
+    result_box.insert(
+        "end",
+        text
+    )
+
 
 
 
@@ -1083,6 +1203,12 @@ buttons = [
     (
         "📄 Generate PDF",
         generate_pdf_gui
+    ),
+
+
+    (
+    "🚀 Run Complete Analysis",
+    complete_analysis_gui
     )
 
 ]
@@ -1096,7 +1222,7 @@ for text, command in buttons:
 
     btn = ctk.CTkButton(
 
-        app,
+        main_frame,
 
         text=text,
 

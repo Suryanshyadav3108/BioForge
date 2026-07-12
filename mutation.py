@@ -240,3 +240,31 @@ def protein_change(reference, mutated):
 
 
     return changes
+
+# ==========================================
+# Complete Mutation Analysis
+# ==========================================
+
+def mutation_analysis(reference, mutated=None):
+
+    if mutated is None:
+        mutated = reference
+
+    return {
+
+        "summary": mutation_summary(
+            reference,
+            mutated
+        ),
+
+        "codon_changes": compare_codons(
+            reference,
+            mutated
+        ),
+
+        "protein_changes": protein_change(
+            reference,
+            mutated
+        )
+
+    }
