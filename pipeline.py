@@ -21,13 +21,15 @@ from protein import translate_dna
 
 from orf import find_orf
 
-from restriction import generate_restriction_report
-
 from primer import design_primers
 
 from codon import generate_codon_report
 
 from mutation import mutation_analysis
+
+from restriction import (
+    restriction_analysis 
+     )
 
 from protein_properties import analyze_protein
 
@@ -96,9 +98,9 @@ def run_complete_analysis(sequence):
     # Restriction
     # -----------------------
 
-    report["restriction"] = generate_restriction_report(
-        sequence
-    )
+    report["restriction"] = restriction_analysis(
+    sequence
+)
 
     # -----------------------
     # Primer
@@ -106,13 +108,13 @@ def run_complete_analysis(sequence):
 
     try:
 
-        report["primer"] = design_primers(
-            sequence
-        )
+        report["primer"] = design_primers(sequence)
 
-    except:
+    except Exception as e:
 
-        report["primer"] = None
+       print(e)
+
+       report["primer"] = None
 
     # -----------------------
     # Codons

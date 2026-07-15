@@ -1122,9 +1122,11 @@ def complete_analysis_gui():
 
     text += "\n\n"
 
-    text += "Restriction\n"
+    text += "✂️ Restriction Analysis\n"
 
-    text += str(report["restriction"])
+    text += report["restriction"]["report"]
+
+    text += "\n\n"
 
     text += "\n\n"
 
