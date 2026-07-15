@@ -700,89 +700,86 @@ No ORF Found ❌
 
 def mutation_analysis_gui():
 
+    window = ctk.CTkToplevel(app)
 
-    sequence = sequence_input.get().upper().strip()
+    window.title("Mutation Analysis")
 
+    window.geometry("700x650")
 
+    ctk.CTkLabel(
+        window,
+        text="Reference DNA"
+    ).pack(pady=(15,5))
 
-    reference = sequence_input.get().upper().strip()
-
-
-
-    result_box.delete(
-
-        "0.0",
-
-        "end"
-
+    ref_box = ctk.CTkTextbox(
+        window,
+        width=600,
+        height=120
     )
+    ref_box.pack()
 
+    ctk.CTkLabel(
+        window,
+        text="Mutated DNA"
+    ).pack(pady=(15,5))
 
-
-    if not sequence:
-
-
-        result_box.insert(
-
-            "end",
-
-            "❌ Enter DNA Sequence"
-
-        )
-
-        return
-
-
-
-
-    mutations = find_mutations(
-
-        reference,
-
-        sequence
-
+    mut_box = ctk.CTkTextbox(
+        window,
+        width=600,
+        height=120
     )
+    mut_box.pack()
 
-
-
-    percentage = mutation_percentage(
-
-        reference,
-
-        sequence
-
+    result = ctk.CTkTextbox(
+        window,
+        width=600,
+        height=170
     )
+    result.pack(pady=15)
 
+    def analyze():
 
+        reference = ref_box.get("1.0", "end").strip().upper()
 
-    result_box.insert(
+        mutated = mut_box.get("1.0", "end").strip().upper()
 
-        "end",
+        result.delete("1.0", "end")
 
-        f"""
+        try:
 
-🧪 Mutation Analysis
+            mutations = find_mutations(reference, mutated)
 
+            percent = mutation_percentage(reference, mutated)
 
-Total Mutation:
+            summary = mutation_summary(reference, mutated)
 
-{len(mutations)}
+            text = ""
 
+            text += "🧪 Mutation Analysis\n\n"
 
+            text += f"Mutation Percentage : {percent:.2f}%\n\n"
 
-Mutation Percentage:
+            text += "Summary\n"
 
-{round(percentage,2)} %
+            text += str(summary)
 
+            text += "\n\n"
 
+            text += "Mutations\n"
 
-Summary:
+            text += str(mutations)
 
-{mutation_summary(mutations)}
+            result.insert("end", text)
 
-"""
+        except Exception as e:
 
-    )
+            result.insert("end", str(e))
+
+    ctk.CTkButton(
+        window,
+        text="Analyze Mutation",
+        command=analyze
+    ).pack(pady=10)
 
 
 
@@ -1212,9 +1209,6 @@ buttons = [
     )
 
 ]
-
-
-
 
 
 for text, command in buttons:
