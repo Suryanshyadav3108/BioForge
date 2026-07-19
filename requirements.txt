@@ -1,2 +1,6 @@
 biopython
+customtkinter
+matplotlib
 reportlab
+requests
+Pillow
