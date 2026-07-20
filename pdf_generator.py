@@ -3,7 +3,7 @@
 BioForge - Professional PDF Report Generator
 
 By : Suryansh Singh Yadav
-Version: 3.4
+Version: 1.0
 =====================================================
 """
 

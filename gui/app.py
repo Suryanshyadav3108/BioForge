@@ -3,7 +3,7 @@
 BioForge GUI Application
 
 By : Suryansh Singh Yadav
-Version: 4.0
+Version: 1.0
 =====================================================
 """
 

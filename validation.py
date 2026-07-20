@@ -2,7 +2,7 @@
 ==========================================
 BioForge Validation Module
 By : Suryansh Singh Yadav 
-Version : 0.5
+Version : 1.0
 ==========================================
 """
 

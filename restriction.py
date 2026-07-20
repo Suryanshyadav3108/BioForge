@@ -3,7 +3,7 @@
 BioForge - Restriction Enzyme Analysis Module
 
 By : Suryansh Singh Yadav
-Version : 2.0
+Version : 1.0
 =====================================================
 """
 
